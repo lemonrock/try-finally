@@ -5,10 +5,11 @@
 use std::panic::catch_unwind;
 use std::panic::resume_unwind;
 use std::panic::AssertUnwindSafe;
+use std::thread::Result;
 
 
 pub fn try_finally<F, R, C>(action: F, cleanup: C) -> R
-where F: FnOnce() -> R, C: FnOnce(&std::thread::Result<R>) -> ()
+where F: FnOnce() -> R, C: FnOnce(&Result<R>) -> ()
 {
 	let result = catch_unwind(AssertUnwindSafe(||
 	{
